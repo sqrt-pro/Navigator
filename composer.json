@@ -1,0 +1,22 @@
+{
+    "name": "sqrt-pro/navigator",
+    "description": "Navigator is part of SQRT Framework",
+    "homepage": "http://fw.sqrt.pro",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.3.0",
+        "sqrt-pro/db": "dev-master",
+        "sqrt-pro/url": "dev-master",
+        "symfony/http-kernel": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "SQRT": "src"
+        }
+    },
+    "config":{
+        "bin-dir":"bin"
+    },
+    "minimum-stability": "dev"
+}
