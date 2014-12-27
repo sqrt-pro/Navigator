@@ -154,7 +154,7 @@ URL: /hello/one:1/two:three/date_from:01.01.2014/date_to:31.12.2014/
 лишних параметров не будет.
 
 ~~~ php
-$navi = new Navigator($request, new URL('hello', array('one' => 1, 'two' => 2, test'=>'me'));
+$navi = new Navigator($request, new URL('hello', array('one' => 1, 'two' => 2, 'test'=>'me'));
 $navi->addFilterEqual('one');
 $navi->addFilterEqual('two');
 $navi->setPage(42);
