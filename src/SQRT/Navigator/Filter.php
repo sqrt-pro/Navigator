@@ -6,10 +6,12 @@ use SQRT\URL;
 use SQRT\Navigator;
 use SQRT\Tag\Select;
 use SQRT\Tag\Input;
+use Stringy\StaticStringy;
 
 /** Условие для выборки */
 class Filter
 {
+  protected $name;
   protected $field;
   protected $column;
   protected $callable;
@@ -21,7 +23,7 @@ class Filter
   /** @var Navigator */
   protected $navigator;
 
-  function __construct(Navigator $navigator, $column, $callable = null, $validator = null)
+  function __construct(Navigator $navigator, $column, $name = null, $validator = null, $callable = null)
   {
     if (!is_null($callable) && !is_callable($callable)) {
       Exception::ThrowError(Exception::FILTER_NOT_CALLABLE);
@@ -29,6 +31,7 @@ class Filter
 
     $this->navigator = $navigator;
     $this->column    = $column;
+    $this->name      = $name;
     $this->callable  = $callable;
     $this->validator = $validator;
   }
@@ -179,6 +182,20 @@ class Filter
   public function getColumn()
   {
     return $this->column;
+  }
+
+  /** Название фильтра */
+  public function getName()
+  {
+    return $this->name ?: StaticStringy::humanize($this->getColumn());
+  }
+
+  /** Название фильтра */
+  public function setName($name)
+  {
+    $this->name = $name;
+
+    return $this;
   }
 
   /** Поле в SQL */

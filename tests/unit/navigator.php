@@ -15,7 +15,7 @@ class navigatorTest extends PHPUnit_Framework_TestCase
     $n = $this->makeNavi('/test/orderby:_id/page:2/id_from:5/id_to:24/');
     $n->setCollection($c);
     $n->addOrderBy('id');
-    $n->addFilterBetween('id', 'is_numeric');
+    $n->addFilterBetween('id', 'ID',  'is_numeric');
 
     $this->assertEquals(20, $n->getTotal(), 'Общее количество элементов');
     $this->assertEquals(1, $n->getTotalPages(), 'Количество страниц без пагинации');

@@ -9,6 +9,20 @@ use Symfony\Component\HttpFoundation\Request;
 
 class filtersTest extends PHPUnit_Framework_TestCase
 {
+  function testName()
+  {
+    $n = new Navigator(Request::create('/hello/'), new Manager());
+    $f = new Filter($n, 'is_active');
+
+    $this->assertEquals('Is active', $f->getName(), 'Имя генерится из названия столбца');
+
+    $f->setName('Вкл');
+    $this->assertEquals('Вкл', $f->getName(), 'Имя задано явно');
+
+    $f = new Filter($n, 'is_active', 'Вкл');
+    $this->assertEquals('Вкл', $f->getName(), 'Имя задано в конструкторе');
+  }
+
   function testValidators()
   {
     $n = new Navigator(Request::create('http://localhost/test:1/'), new Manager());
@@ -65,18 +79,19 @@ class filtersTest extends PHPUnit_Framework_TestCase
   {
     $n = new Navigator(Request::create('http://localhost' . $url), new Manager());
     $n->conditions(true)->expr('`id` > 7');
-    $n->addFilterEqual('name', '/^[a-z]+$/');
+    $n->addFilterEqual('name', 'Имя', '/^[a-z]+$/');
     $n->addFilterLike('addr');
-    $n->addFilterBetween('id', 'is_numeric')
+    $n->addFilterBetween('id', 'ID', 'is_numeric')
       ->setGreaterOrEqual(false); // Возвращается фильтр и его можно донастроить
     $n->addFilter(
       'date',
-      'is_numeric',
+      'Дата',
       function (Navigator $navi, Filter $filter) {
         if ($val = $filter->getCleanValue()) {
           $navi->conditions()->greaterOrEqual('created_at', date('d.m.Y', strtotime('+' . $val . ' day')));
         }
-      }
+      },
+      'is_numeric'
     );
 
     $this->assertEquals($exp, $n->processFilters()->asSQL(), $msg);

@@ -97,7 +97,7 @@ class Navigator
   /** Применение $callable ко всем результатам выборки */
   public function each($callable)
   {
-    return $this->getItems()->each($callable);
+    return $this->getItems()->map($callable);
   }
 
   /**
@@ -148,11 +148,15 @@ class Navigator
   /**
    * В $callable фильтра при вызове передаются аргументы Navigator, Filter
    *
+   * @param $col
+   * @param null $name
+   * @param null $callable
+   * @param null $validator
    * @return Filter
    */
-  public function addFilter($col, $validator = null, $callable = null)
+  public function addFilter($col, $name = null, $callable = null, $validator = null)
   {
-    return $this->filters[$col] = new Filter($this, $col, $callable, $validator);
+    return $this->filters[$col] = new Filter($this, $col, $name, $validator, $callable);
   }
 
   /**
@@ -160,7 +164,7 @@ class Navigator
    *
    * @return Equal
    */
-  public function addFilterEqual($col, $validator = null)
+  public function addFilterEqual($col, $name = null, $validator = null)
   {
     return $this->filters[$col] = new Equal($this, $col, null, $validator);
   }
@@ -170,7 +174,7 @@ class Navigator
    *
    * @return Between
    */
-  public function addFilterBetween($col, $validator = null)
+  public function addFilterBetween($col, $name = null, $validator = null)
   {
     return $this->filters[$col] = new Between($this, $col, null, $validator);
   }
@@ -180,7 +184,7 @@ class Navigator
    *
    * @return Like
    */
-  public function addFilterLike($col, $validator = null)
+  public function addFilterLike($col, $name = null, $validator = null)
   {
     return $this->filters[$col] = new Like($this, $col, null, $validator);
   }
