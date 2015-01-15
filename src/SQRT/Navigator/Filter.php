@@ -52,7 +52,7 @@ class Filter
       return false;
     }
 
-    $s = new Select($this->getColumn(), $options, is_null($value) ? $value : $this->getCleanValue(), $attr, $placeholder);
+    $s = new Select($this->getColumn(), $options, !is_null($value) ? $value : $this->getCleanValue(), $attr, $placeholder);
 
     if ($this->getOptionsIgnoreKeys()) {
       $s->setIgnoreOptionsKeys(true);

@@ -53,8 +53,10 @@ class filtersTest extends PHPUnit_Framework_TestCase
     $this->assertTrue($f->validate(array(1, 2)), 'Все значения массива есть среди допустимых');
     $this->assertFalse($f->validate(array(1, 3)), 'Один из элементов вне диапазона');
 
+    $f->validate(1);
+
     $exp = '<select name="test">'
-      . '<option value="1">one</option>' . "\n"
+      . '<option selected="selected" value="1">one</option>' . "\n"
       . '<option value="2">two</option>' . "\n"
       . '</select>';
     $this->assertEquals($exp, $f->asSelect()->toHTML(), 'Генерация списка SELECT');
