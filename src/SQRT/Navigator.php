@@ -166,7 +166,7 @@ class Navigator
    */
   public function addFilterEqual($col, $name = null, $validator = null)
   {
-    return $this->filters[$col] = new Equal($this, $col, null, $validator);
+    return $this->filters[$col] = new Equal($this, $col, $name, $validator);
   }
 
   /**
@@ -176,7 +176,7 @@ class Navigator
    */
   public function addFilterBetween($col, $name = null, $validator = null)
   {
-    return $this->filters[$col] = new Between($this, $col, null, $validator);
+    return $this->filters[$col] = new Between($this, $col, $name, $validator);
   }
 
   /**
@@ -186,7 +186,7 @@ class Navigator
    */
   public function addFilterLike($col, $name = null, $validator = null)
   {
-    return $this->filters[$col] = new Like($this, $col, null, $validator);
+    return $this->filters[$col] = new Like($this, $col, $name, $validator);
   }
 
   /**
