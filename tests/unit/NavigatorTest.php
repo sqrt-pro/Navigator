@@ -9,9 +9,9 @@ class NavigatorTest extends PHPUnit_Framework_TestCase
   {
     $this->fillTable(34);
 
-    $c = new \SQRT\DB\Collection($this->getManager('test_'), 'pages');
+    $c = new \SQRT\DB\Repository($this->getManager('test_'), 'pages');
     $n = $this->makeNavi('/test/orderby:_id/page:2/id_from:5/id_to:24/');
-    $n->setCollection($c);
+    $n->setRepository($c);
     $n->addOrderBy('id');
     $n->addFilterBetween('id', 'ID',  'is_numeric');
 

@@ -3,7 +3,7 @@
 namespace SQRT;
 
 use SQRT\DB\Collection;
-use SQRT\DB\Item;
+use SQRT\DB\Repository;
 use SQRT\Navigator\Exception;
 use SQRT\Tag\Select;
 use SQRT\DB\Manager;
@@ -26,8 +26,8 @@ class Navigator
   /** @var URLImmutable */
   protected $url;
 
-  /** @var Collection */
-  protected $collection;
+  /** @var Repository */
+  protected $repository;
 
   /** Количество элементов на странице */
   protected $onpage;
@@ -64,40 +64,40 @@ class Navigator
   /** Флаг, что выборка по запросу отсутствует */
   protected $searchable = true;
 
-  function __construct(Request $request, Manager $manager, $collection = null)
+  function __construct(Request $request, Manager $manager, $repository = null)
   {
     $this->request = $request;
     $this->manager = $manager;
     $this->url     = new URLImmutable($request->getUri());
 
-    if ($collection) {
-      $this->setCollection($collection);
+    if ($repository) {
+      $this->setRepository($repository);
     }
 
     $this->init();
   }
 
-  /** @return Collection|Item[] */
+  /** @return Collection */
   public function getItems()
   {
-    $c = $this->getCollection()->setItems(null);
-
-    if ($this->isSearchable()) {
-      $c->find(
-        $this->processFilters(),
-        $this->processOrderBy(),
-        $this->getOnpage(),
-        $this->getPage()
-      );
-    }
-
-    return $c;
+    return $this->isSearchable()
+      ? $this->getRepository()
+        ->find($this->processFilters(), $this->processOrderBy(), $this->getOnpage(), $this->getPage())
+      : new Collection();
   }
 
   /** Применение $callable ко всем результатам выборки */
   public function each($callable)
   {
-    return $this->getItems()->map($callable);
+    return $this
+      ->getRepository()
+      ->each(
+        $callable,
+        $this->processFilters(),
+        $this->processOrderBy(),
+        $this->getOnpage(),
+        $this->getPage()
+      );
   }
 
   /**
@@ -109,13 +109,13 @@ class Navigator
   {
     $this->total = null;
 
-    if (!$c = $this->getCollection()) {
+    if (!$repo = $this->getRepository()) {
       $this->setSearchable(false);
 
       return false;
     }
 
-    if (!$this->total = $c->countQuery($this->processFilters())) {
+    if (!$this->total = $repo->count($this->processFilters())) {
       $this->setSearchable(false);
 
       return false;
@@ -620,21 +620,21 @@ class Navigator
     return $this->getUrlClean()->setParameter('page', $page);
   }
 
-  /** @return Collection */
-  public function getCollection()
+  /** @return Repository */
+  public function getRepository()
   {
-    return $this->collection;
+    return $this->repository;
   }
 
   /**
    * $collection - объект коллекции или название для получения коллекции из менеджера БД
    * @return static
    */
-  public function setCollection($collection)
+  public function setRepository($repository)
   {
-    $this->collection = $collection instanceof Collection
-      ? $collection
-      : $this->getManager()->getCollection($collection);
+    $this->repository = $repository instanceof Repository
+      ? $repository
+      : $this->getManager()->getRepository($repository);
 
     return $this;
   }

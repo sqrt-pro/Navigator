@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": ">=5.3.0",
-        "sqrt-pro/db": "~0.0.1",
+        "sqrt-pro/db": "~0.1",
         "sqrt-pro/url": "dev-master",
         "symfony/http-foundation": "~2.6"
     },
@@ -18,5 +18,10 @@
     "config":{
         "bin-dir":"bin"
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
 }
