@@ -1,14 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../init.php';
-
 use SQRT\URL;
 use SQRT\Navigator;
 use SQRT\DB\Manager;
 use SQRT\Navigator\OrderBy;
 use Symfony\Component\HttpFoundation\Request;
 
-class orderbyTest extends PHPUnit_Framework_TestCase
+class OrderbyTest extends PHPUnit_Framework_TestCase
 {
   function testOrderByItem()
   {

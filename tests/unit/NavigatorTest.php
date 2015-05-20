@@ -1,11 +1,9 @@
 <?php
 
-require_once __DIR__ . '/../init.php';
-
 use Symfony\Component\HttpFoundation\Request;
 use SQRT\Navigator;
 
-class navigatorTest extends PHPUnit_Framework_TestCase
+class NavigatorTest extends PHPUnit_Framework_TestCase
 {
   function testItems()
   {

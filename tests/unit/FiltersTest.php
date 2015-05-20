@@ -1,13 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../init.php';
-
 use SQRT\Navigator;
 use SQRT\DB\Manager;
 use SQRT\Navigator\Filter;
 use Symfony\Component\HttpFoundation\Request;
 
-class filtersTest extends PHPUnit_Framework_TestCase
+class FiltersTest extends PHPUnit_Framework_TestCase
 {
   function testName()
   {
